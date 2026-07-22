@@ -3,390 +3,896 @@
 <details>
 <summary>
 
-### 1. Фундамент и философия языка
+### 1. Фундамент
 </summary>
 
-- **Введение в Scala**
-  - История создания (Мартин Одерски, EPFL, 2004)
-  - Что такое Scala? **Scal**able **La**nguage
-  - Взаимодействие с Java (JVM-язык, байт-код, совместимость)
-  - Парадигмы: гибрид ООП и ФП (чистый ООП? чистое ФП?)
-  - Кому подходит Scala? (Data Engineering, Backend (Fintech), ML)
-- **Базовый синтаксис и первые шаги**
-  - Установка и настройка (sbt, coursier, Metals IntelliJ)
-  - Типы данных: `Int`, `Double`, `Boolean`, `Char`, `String`
-  - `val` (неизменяемые ссылки) vs `var` (изменяемые) — фундаментальный выбор
-  - Ленивые значения (`lazy val`)
-  - Блоки выражений и тип `Unit` (`println()`)
-  - Строковая интерполяция (`s`, `f`, `raw`)
-- **Scala vs Java для опытных Java-разработчиков**
-  - Всё — выражение (if, for, match возвращают значение)
-  - Вывод типов (Type Inference) — как это работает
-  - Отсутствие checked exceptions
-  - Синглтон-объекты (object) вместо статики
-- **Инструменты сборки: sbt (Scala Build Tool)**
-  - Структура проекта (`build.sbt`, `project/`)
-  - Основные задачи: `compile`, `run`, `test`, `assembly`
-  - Управление зависимостями (libraryDependencies, конфликты версий)
-  - Мультимодульные проекты
-  - **sbt-плагины**: `sbt-assembly`, `sbt-native-packager`, `sbt-dependency-graph`
+- Введение в Scala
+  - Что такое Scala? Мультипарадигменный язык (ООП + ФП)
+  - История создания и развития (Scala 2, Scala 3)
+  - Философия: лаконичность, безопасность типов, масштабируемость
+  - Scala на JVM: компиляция в байт-код, совместимость с Java
+  - Scala.js и Scala Native — обзор платформ
+  - Области применения: бэкенд, большие данные, стриминг, распределённые системы
+- Установка и настройка
+  - Установка JDK (версии, совместимость)
+  - Установка Scala: sdkman!, coursier, системные пакеты
+  - Первая программа "Hello, World!" (компиляция и запуск)
+  - REPL и рабочие листы (Ammonite, IntelliJ Scala Worksheet)
+  - Scala CLI для быстрых экспериментов
+- Инструменты разработки
+  - Выбор IDE: IntelliJ IDEA + Scala plugin, Metals (VS Code, Vim)
+  - Обзор проекта: структура каталогов, исходники, ресурсы
+  - Работа в терминале: scalac, scala, sbt
+  - Частые проблемы и их решение
+- Основные концепции
+  - Компиляция и интерпретация
+  - Байт-код и JVM
+  - Сравнение Scala и Java (основные отличия)
+  - Плюсы и минусы Scala
+
 </details>
 
 <details>
 <summary>
 
-### 2. Объектно-ориентированное программирование в Scala
+### 2. Синтаксис и базовые конструкции
 </summary>
 
-- **Классы и объекты (Classes & Objects)**
-  - Определение класса, конструктор (первичный и вспомогательные)
-  - Параметры класса (`class User(name: String, age: Int)`) — поля или параметры?
-  - Переопределение методов (`override def`)
-  - **Объекты-компаньоны (Companion Objects)**
-    - Фабричные методы (`apply`), метод `unapply` (для экстракторов)
-    - Хранение "статических" методов
-- **Наследование и иерархия типов**
-  - Абстрактные классы (abstract class)
-  - Кейс-классы (case class) — мощь одной строки
-    - Автоматический `equals`, `hashCode`, `toString`, `copy`
-    - Сериализация
-    - Применимость в паттерн-матчинге
-  - Герметичные (sealed) иерархии — основа алгебраических типов данных (ADT)
-  - Классы-значения (Value Classes) для избежания аллокаций (`extends AnyVal`)
-- **Трейты (Traits)**
-  - Что такое trait? (интерфейс + реализация)
-  - Линеаризация (Linearization) — как решается проблема ромбовидного наследования
-  - Стекируемые изменения (Stackable Modifications) через `super`
-  - Трейты с параметрами (в Scala 3)
+- Переменные и значения
+  - `val` (неизменяемое) и `var` (изменяемое)
+  - Вывод типов (type inference)
+  - Ленивая инициализация (`lazy val`)
+  - Объявление типа
+- Базовые типы данных
+  - Числовые типы: Int, Long, Double, Float, Short, Byte, Char
+  - Boolean
+  - Строки: String, интерполяция (s, f, raw), многострочные строки
+  - Unit, Null, Nothing, Any, AnyVal, AnyRef
+- Операции и выражения
+  - Арифметические, логические, побитовые операторы
+  - Приоритет операторов
+  - Выражения против инструкций (всё возвращает значение)
+- Управляющие конструкции
+  - `if`/`else` как выражение
+  - Циклы: `while`, `do-while`
+  - `for`-генераторы (for-comprehensions) — базовое использование (map, flatMap)
+  - `for` с условиями (`if`)
+- Pattern matching (сопоставление с образцом)
+  - Синтаксис `match`/`case`
+  - Паттерны: константы, переменные, wildcard (`_`)
+  - Охранники (`if`)
+  - Сопоставление типов, извлечение из case-классов
+- Функции (введение)
+  - Объявление функции (`def`)
+  - Параметры и аргументы
+  - Возвращаемый тип и автоматический вывод
+  - Процедурный синтаксис (Unit)
+  - Аргументы по умолчанию и именованные аргументы
+- Комментарии и документация
+  - Однострочные (`//`) и многострочные (`/* */`)
+  - Scaladoc-комментарии
+- Ранние инструменты
+  - Чтение ввода с консоли: `scala.io.StdIn`
+  - Вывод: `println`, `print`
+
 </details>
 
 <details>
 <summary>
 
-### 3. Функциональное программирование (Core FP)
+### 3. Объектно-ориентированное программирование в Scala
 </summary>
 
-- **Функции — объекты первого класса**
-  - Анонимные функции (лямбды): `(x: Int) => x + 1`
-  - Сахар для функций: `_ + _` (подчеркивание как заполнитель)
-  - Функции как значения типов `FunctionN` (`Function1`, `Function2`)
-  - Чистые функции (Pure Functions) и референциальная прозрачность (Referential Transparency)
-  - Побочные эффекты (Side Effects) — где их размещать (край программы)
-- **Высший порядок (Higher-Order Functions)**
-  - Функции, принимающие функции: `map`, `flatMap`, `filter`
-  - Функции, возвращающие функции (каррирование)
-  - **Коллекции Scala: неизменяемость по умолчанию**
-    - Иерархия: `Seq`, `List`, `Vector`, `Set`, `Map`
-    - Производительность коллекций (головой об стену): когда `List`, когда `Vector`
-    - Параллельные коллекции (`.par`)
-    - Строгость (Eager) vs Ленивость (Lazy): `View`
-- **Рекурсия и хвостовая рекурсия**
-  - Проблема стека при обычной рекурсии
-  - **Хвостовая рекурсия (Tail Recursion)** и аннотация `@tailrec`
-  - Оптимизация хвостовой рекурсии компилятором (превращение в цикл)
-  - Взаимная рекурсия (Trampolining)
-- **Pattern Matching (Сопоставление с образцом)**
-  - Базовая конструкция: `match { case ... => ... }`
-  - Стражи (Guards): `case x if x > 0 =>`
-  - Сопоставление с типами
-  - Сопоставление с case class (глубокая декомпозиция)
-  - Сопоставление с последовательностями (`case List(a, b, _*)`)
-  - Запечатанные (sealed) иерархии — компилятор проверяет исчерпываемость (exhaustiveness)
-  - **Экстракторы (Extractors)** и метод `unapply`
-- **Частичные функции (Partial Functions)**
-  - `PartialFunction[A, B]` и метод `isDefinedAt`
-  - Синтаксис: `{ case ... => ... }`
-  - Комбинация partial functions: `orElse`
-- **Коллекции и монады (для перехода к ZIO/Cats)**
-  - `Option` — контейнер для наличия/отсутствия значения
-  - `Either` — вычисление с ошибкой (классический и право-ориентированный)
-  - `Try` — работа с исключениями как со значениями (Success/Failure)
-  - **For-comprehension** — синтаксический сахар для `flatMap`, `map`, `filter`
-  - Понимание монад через for-comprehension
+- Классы и объекты
+  - Определение класса: поля, методы
+  - Основной конструктор и вспомогательные конструкторы
+  - Синглтон-объекты (`object`)
+  - Companion object (объект-компаньон) — фабрики, неявные преобразования, статические члены
+  - `apply` и `unapply` методы
+- Case-классы
+  - Создание, неизменяемые поля
+  - Автоматически сгенерированные методы: `equals`, `hashCode`, `toString`, `copy`
+  - Pattern matching с case-классами
+- Наследование и композиция
+  - Расширение классов: `extends`
+  - Переопределение методов и полей (`override`)
+  - Абстрактные классы и абстрактные члены
+  - Запечатанные классы (`sealed`) для ограниченной иерархии
+  - `final` классы и методы
+- Traits (типажи/трейты)
+  - Определение trait
+  - Миксины: `with`, множественное наследование от trait'ов
+  - Линеаризация и разрешение ромбовидного наследования
+  - Абстрактные и конкретные методы в trait'ах
+  - Trait как интерфейсы с реализацией
+- Generics (Обобщения)
+  - Обобщённые классы и методы
+  - Ограничения на типы: верхняя граница (`<:`), нижняя граница (`>:`)
+  - Вариантность: ковариантность (`+`), контравариантность (`-`), инвариантность
+  - Обобщённые типы в методах
+- Модификаторы доступа
+  - `private`, `protected`, `public` (по умолчанию)
+  - Область видимости `private[this]`, `protected[package]`
+- Пакеты и импорт
+  - Объявление пакета, вложенные пакеты
+  - Импорт: одиночный, групповой, переименование, скрытие
+  - `import` внутри любого блока
+- Объектная модель на JVM
+  - Переопределение `equals`, `hashCode`, `toString`
+  - Сравнение с Java-классами
+
 </details>
 
 <details>
 <summary>
 
-### 4. Продвинутая система типов (Type System)
+### 4. Функциональное программирование
 </summary>
 
-- **Параметрический полиморфизм (Дженерики)**
-  - Классы и методы с параметрами типа: `class Box[A]`
-  - Вариантность (Variance) — ключ к безопасным дженерикам
-    - **Ковариантность (Covariance):** `+A` (Producer)
-    - **Контравариантность (Contravariance):** `-A` (Consumer)
-    - **Инвариантность:** по умолчанию
-    - Принцип PECS (Producer-Extends, Consumer-Super) в терминах Scala
-  - Ограничения типов (Type Bounds)
-    - Верхняя граница (Upper Bound): `A <: Animal`
-    - Нижняя граница (Lower Bound): `A >: Cat`
-    - Контекстные границы (Context Bounds): `A : Ordering` (связь с Type Classes)
-- **Типы высшего порядка (Higher-Kinded Types)**
-  - Что такое `* -> *`? Типы, принимающие типы.
-  - Зачем нужно? Абстракция над контейнерами (например, `F[_]` в Cats/ZIO)
-- **Неявные параметры и преобразования (Implicits)**
-  - **Implicit Parameters:** автоматическая передача "контекста"
-  - **Implicit Conversions:** опасная, но мощная вещь (лучше избегать, используя extension methods)
-  - **Implicit Classes:** расширение существующих типов методами (pimp-my-library)
-  - **Правила разрешения неявных значений** (где ищет компилятор)
-  - **Где implicits в современном Scala:** Cats, ZIO, JSON-кодеки
-- **Type Classes (Классы типов)**
-  - Паттерн для ad-hoc полиморфизма
-  - Компоненты: Type Class (trait), Instances (implicit val), Interface (методы)
-  - Пример: `Show`, `Eq`, `Ordering`, `Functor`, `Monad`
-  - Синтаксис (Interface Syntax) через extension-методы
-- **Зависимые типы (Path-Dependent Types) и Singleton Types**
-  - Внутренние классы и зависимость от внешнего экземпляра
-  - Литеральные типы (Literal-based singleton types): `42.n`
-- **Type Lambdas и полиморфизм**
-  - Исправление несоответствия видов (kind mismatch) через лямбды
-- **Материализация неявных значений (Implicit Derivation)**
-  - Автоматическая генерация type class instances для case classes (shapeless, magnolia)
-</details>
+- Функции как значения первого класса
+  - Анонимные функции (лямбды): синтаксис `(x: Int) => x + 1`
+  - Типы функций: `FunctionN[A, B, ...]`, синтаксический сахар `A => B`
+  - Eta-расширение: метод в функциональное значение
+- Функции высшего порядка
+  - Приём функций в параметры и возврат функций
+  - Стандартные операции коллекций: `map`, `flatMap`, `filter`, `foreach`
+  - Свёртки: `foldLeft`, `foldRight`, `reduce`, `scan`
+- Каррирование и частичное применение
+  - Каррированные функции: несколько списков параметров
+  - Частичное применение: фиксация части аргументов
+  - Преобразование методов в функции с помощью `_`
+- Замыкания (closures)
+  - Захват переменных из окружающей области видимости
+  - Отличие val и var в замыканиях
+- Рекурсия и хвостовая рекурсия
+  - Обычная рекурсия
+  - Аннотация `@scala.annotation.tailrec`
+  - Преобразование в цикл компилятором
+- Иммутабельность
+  - Преимущества неизменяемых данных
+  - Создание обновлённых копий (например, `copy` у case-классов)
+  - Работа с вложенными неизменяемыми структурами (линзы — обзор)
+- Композиция функций
+  - `compose`, `andThen`
+  - Цепочки преобразований
+- For-comprehensions (углублённо)
+  - Десахаризация в `map`, `flatMap`, `withFilter`
+  - Использование с Option, Either, Future, списками
+- Функциональная обработка ошибок
+  - `Option`: `Some`/`None`, операции `map`, `flatMap`, `getOrElse`, `orElse`
+  - `Either`: `Left`/`Right`, `map`, `flatMap`, `fold`
+  - `Try`: `Success`/`Failure`, `recover`, `recoverWith`
+  - Паттерн "железнодорожная колея" (railway oriented programming)
 
-<details>
-
-<summary>
-
-### 5. Библиотеки эффектов и конкурентность (Effects & Concurrency)
-</summary>
-
-- **Проблемы "сырой" многопоточности**
-  - `Thread`, `Runnable`, `synchronized`, `wait/notify` — сложно и ошибкоопасно
-  - `Future` из стандартной библиотеки (scala.concurrent)
-    - Проблема: строгое вычисление, запускается сразу
-    - Проблема: нет контроля над эффектами (ссылочная прозрачность)
-    - ExecutionContext — неявный глобальный пул потоков
-- **Библиотеки эффектов (Referential Transparency)**
-  - **Cats Effect**
-    - `IO[A]` — описание программы с эффектами
-    - Асинхронность, конкурентность, отмена (cancelation)
-    - `Resource` — безопасное управление ресурсами
-    - Fibers (легковесные потоки)
-  - **ZIO**
-    - `ZIO[R, E, A]` — эффект с окружением, ошибкой и значением
-    - Службы (Services) и модульное тестирование через слой окружения (ZLayer)
-    - Конкурентные структуры: Queue, Ref, Semaphore, Promise
-    - Стриминг: **ZIO Streams**
-  - **Сравнение:** ZIO vs Cats Effect vs Monix
-- **Акторы и Akka (классика)**
-  - Модель акторов
-  - Akka Actors (typed vs classic)
-  - Akka Cluster, Cluster Sharding, Distributed Data
-  - Akka Streams (Reactive Streams)
-- **Обзор: Pekko** — форк Akka после смены лицензии
 </details>
 
 <details>
 <summary>
 
-### 6. Метапрограммирование и Scala 3
+### 5. Система типов и имплиситы / Given
 </summary>
 
-- **Макросы (Scala 2)**
-  - Что такое макросы? (экспериментально, для библиотек)
-- **Scala 3 (Dotty) — новая эра**
-  - **Ключевые изменения:**
-    - Упрощенный синтаксис (optional braces)
-    - Переработанные неявные (implicits) → **Given/Using** (контекстные параметры)
-    - Extension методы
-    - Export clauses
-    - Enumeration (теперь настоящие алгебраические типы данных)
-    - Union Types (`A | B`) и Intersection Types (`A & B`)
-    - Opaque Types (сокрытие реализации)
-    - Мультиверсионность (Multiversal Equality)
-  - **Контекстные абстракции (Contextual Abstractions)**
-    - `given` instances
-    - `using` clauses
-    - Глобальная замена implicit'ов
-  - **Макросы в Scala 3** (более безопасные и стабильные)
-- **Миграция со Scala 2 на Scala 3** (совместимость, кросс-билды)
+- Иерархия типов
+  - `Any`, `AnyVal`, `AnyRef`, `Nothing`, `Null`, `Unit`
+  - Связь с Java-типами
+- Параметрический полиморфизм (generics)
+  - Обобщённые классы и методы
+  - Стирание типов (type erasure) и его последствия
+- Вариантность
+  - Ковариантность (`+`): `List[+A]`
+  - Контравариантность (`-`): обработчики событий
+  - Инвариантность (по умолчанию)
+- Ограничения типов
+  - Верхняя граница (`A <: B`)
+  - Нижняя граница (`A >: B`)
+  - Контекстные границы (`A : Ordering`) — требует implicit/given
+- Абстрактные члены типов (`type`)
+  - Определение абстрактного типа в trait/классе
+  - Реализация в наследниках
+- Имплиситы в Scala 2
+  - `implicit val` и `implicit def`
+  - Неявные параметры
+  - Неявные преобразования (`implicit class` для extension методов, `implicit def`)
+  - Область видимости имплиситов, приоритеты, разрешение неоднозначностей
+- Given/Using в Scala 3
+  - `given` определения
+  - `using` параметры
+  - `summon` для явного вызова
+  - `given` импорт и область видимости
+- Расширяющие методы (Extension methods)
+  - `implicit class` в Scala 2
+  - `extension` в Scala 3
+- Тайпклассы (Type classes)
+  - Паттерн: trait-тайпкласс, экземпляры в companion object/scope
+  - Автоматический вывод (deriving) в Scala 3
+  - Примеры: `Show`, `Eq`, `Ordering`, `Encoder`/`Decoder`
+- Продвинутые возможности типов
+  - Self-types (самоссылочные типы)
+  - Phantom types (фантомные типы)
+  - Зависимые от пути типы (path-dependent types)
+  - Opaque типы (Scala 3)
+  - Union и Intersection типы (Scala 3)
+  - Match types (Scala 3)
+  - Type lambdas
+
 </details>
 
 <details>
 <summary>
 
-### 7. Работа с данными и стеки для Data Engineering
+### 6. Стандартная библиотека и коллекции
 </summary>
 
-- **Apache Spark на Scala**
-  - Почему Scala — "родной" язык для Spark?
-  - Dataset API и типизированные трансформации
-  - Написание UDF (простые и сложные)
-  - Структурированные типы: работа с `ArrayType`, `MapType`, `StructType`
-  - Под капотом: Catalyst и Tungsten (как генерируется код)
-- **Frameless** — типизированная обертка над Spark Dataset
-- **Scala и базы данных**
-  - **Slick** (Functional Relational Mapping) — компилируемые запросы
-  - **Doobie** (чистая функциональная работа с JDBC)
-  - **Quill** — compile-time query generation
-- **JSON (де)сериализация**
-  - **Circe** (библиотека от авторов Cats)
-  - **Play-JSON**
-  - **uPickle**
-  - Автоматическая генерация кодеков через полуавтоматическую и автоматическую деривацию
+- Обзор библиотеки коллекций
+  - `scala.collection` — базовые трейты
+  - Неизменяемые (`immutable`) и изменяемые (`mutable`) коллекции
+  - Рекомендация: по умолчанию неизменяемые
+- Основные неизменяемые коллекции
+  - `List` — односвязный список
+  - `Vector` — эффективный произвольный доступ
+  - `Set`, `Map`
+  - `Range`, `LazyList` (ленивый список)
+  - `Queue`, `Stack`
+- Основные изменяемые коллекции
+  - `ArrayBuffer`, `ListBuffer`
+  - `mutable.Map`, `mutable.Set`
+  - `Array` (JVM-массив)
+- Операции над коллекциями
+  - Трансформации: `map`, `flatMap`, `filter`, `collect`, `flatten`
+  - Свёртки: `foldLeft`, `foldRight`, `reduce`, `scanLeft`, `scanRight`
+  - Группировка и сортировка: `groupBy`, `sortBy`, `sortWith`, `partition`, `span`
+  - Агрегация: `sum`, `min`, `max`, `mkString`
+  - Доступ: `head`, `tail`, `last`, `init`, `take`, `drop`, `slice`
+  - Объединение: `++`, `:::`, `zip`, `zipWithIndex`
+- Специальные типы данных
+  - `Option` — детально: `map`, `flatMap`, `filter`, `getOrElse`, `orElse`, `fold`
+  - `Either` — обработка ошибок, `map`, `flatMap`, `leftMap`, `fold`
+  - `Try` — безопасное выполнение кода с исключениями
+- For-comprehensions
+  - Синтаксис с генераторами, определениями, условиями
+  - Связь с `flatMap`/`map`/`withFilter`
+  - Использование с Option, Either, Future, коллекциями
+- Представления (views) и итераторы
+  - Ленивые вычисления: `view`
+  - Итераторы: `iterator`, потребление
+- Интеграция с Java коллекциями
+  - `JavaConverters` / `CollectionConverters`
+- Производительность коллекций
+  - Асимптотическая сложность операций
+  - Выбор правильной структуры данных
+
 </details>
 
 <details>
 <summary>
 
-### 8. Тестирование и качество кода
+### 7. Управление зависимостями и сборка проектов
 </summary>
 
-- **Библиотеки тестирования**
-  - **ScalaTest:** `WordSpec`, `FlatSpec`, `FunSuite`
-  - **Specs2**
-  - **MUnit** (легковесный, быстрый)
-- **Свойства и Property-based testing**
-  - **ScalaCheck** — генерация случайных данных и проверка свойств
-  - Интеграция с ScalaTest (GeneratorDrivenPropertyChecks)
-- **Тестирование эффектов**
-  - `IO` (Cats Effect) — `IOAssertion`
-  - `ZIO Test` — встроенный мощный test framework
-  - Тестирование времени, контекста и отмены
-- **Mock-и и стабы**
-  - Mockito (с интеграцией для Scala)
-  - ScalaMock
-- **Инструменты статического анализа**
-  - **Scapegoat**
-  - **WartRemover**
-  - **Scalafix** (рефакторинг и линтинг)
-  - **Scalafmt** (форматирование кода)
+- Основы sbt (Scala Build Tool)
+  - Файл `build.sbt` — синтаксис и основные настройки
+  - Структура проекта: `src/main/scala`, `src/test/scala`, `project/`
+  - Ключи, настройки, таски
+  - Плагины: добавление, настройка
+- Управление зависимостями
+  - `libraryDependencies` — синтаксис `groupId % artifactId % version`
+  - Разрешение конфликтов версий
+  - Исключение транзитивных зависимостей
+  - Репозитории: Maven Central, дополнительные
+- Мультипроектная сборка
+  - Определение нескольких проектов в одном build.sbt
+  - Общие настройки, агрегация
+- Кросс-компиляция (cross-building)
+  - Поддержка разных версий Scala (`crossScalaVersions`)
+  - Платформенная кросс-компиляция (JVM, JS, Native)
+- Альтернативные инструменты сборки
+  - Mill — обзор и сравнение с sbt
+  - Maven/Gradle с плагинами для Scala
+- Scala CLI
+  - Быстрое прототипирование без сложной настройки
+  - Запуск скриптов, упаковка
+- Публикация библиотек
+  - sbt-ci-release для автоматической публикации
+  - Настройка `publishTo`, учётные данные
+  - Sonatype/Maven Central
+
 </details>
 
 <details>
 <summary>
 
-### 9. Паттерны проектирования и Архитектура
+### 8. Тестирование
 </summary>
 
-- **Функциональная архитектура**
-  - **Onion Architecture** (чистая архитектура на Scala)
-  - **Tagless Final** — абстракция над эффектами
-    - Определение алгебры (trait Algebra[F[_]])
-    - Интерпретаторы для разных эффектов (IO, Task, Id)
-  - **Free Monads** (альтернативный подход)
-  - **ZIO Environment (ZLayer)** — модульное построение графа зависимостей
-- **Стандартные паттерны GoF в Scala**
-  - Строитель (Builder) через copy-метод case class
-  - Одиночка (Singleton) через object
-  - Фабрика (Factory) через apply в компаньоне
-- **Реализация Domain-Driven Design (DDD)**
-  - Моделирование домена через case classes и sealed traits
-  - Value Objects и Entities
-  - Алгебраические типы данных для домена
-- **Обработка ошибок**
-  - Не падай, возвращай! (No Exceptions for business logic)
-  - `Either` vs `ZIO` vs `IO`
-  - Бисквитная фабрика: композиция Either
+- Фреймворки для тестирования
+  - ScalaTest: стили (FunSuite, FlatSpec, WordSpec, FreeSpec, FeatureSpec)
+  - MUnit — лёгкий, быстрый, для Scala 3
+  - Specs2 — BDD-стиль
+  - µTest — минималистичный
+- Утверждения (matchers)
+  - Встроенные матчеры ScalaTest
+  - ShouldMatchers, MustMatchers
+- Организация тестов
+  - Жизненный цикл: before/after, фикстуры
+  - Асинхронные тесты (Future, IO)
+- Property-based тестирование
+  - ScalaCheck: генераторы (`Gen`), свойства (`Prop`)
+  - Интеграция со ScalaTest (`Checkers`)
+- Моки и стабы
+  - Mockito, ScalaMock
+  - Создание мок-объектов, проверка вызовов
+  - Тестирование без моков: использование чистых функций
+- Интеграционное тестирование
+  - Тестирование взаимодействия с БД, сервисами
+  - Тестовые контейнеры (TestContainers)
+- Покрытие кода
+  - sbt-scoverage — измерение покрытия
+  - Генерация отчётов
+- Тестирование эффектов (Cats Effect, ZIO)
+  - Cats Effect Testing: `IO` assertions, `temporal`
+  - ZIO Test: `ZIOSpecDefault`, генераторы, assertions
+- Непрерывная интеграция
+  - Запуск тестов в CI, настройка порогов покрытия
+
 </details>
 
 <details>
 <summary>
 
-### 10. Сетевое программирование и Web-фреймворки
+### 9. Конкурентность и многопоточность
 </summary>
 
-- **HTTP-серверы**
-  - **Akka HTTP** (high-level, low-level API)
-  - **http4s** (чисто функциональный, на базе Cats Effect)
-  - **Play Framework** (полноценный MVC)
-  - **Finatra** (от Twitter)
-  - **ZIO HTTP**
-- **Клиенты**
-  - **Sttp** — функциональный HTTP-клиент
-- **Работа с gRPC / Protobuf**
-  - ScalaPB
-- **Брокеры сообщений**
-  - Akka Streams + Kafka (Alpakka Kafka Connector)
-  - FS2 (Functional Streams for Scala) + Kafka
+- Основы JVM-потоков
+  - Класс `Thread` и `Runnable`
+  - Проблемы: состояние гонки, взаимные блокировки (deadlock)
+  - Синхронизация: `synchronized`, `wait`/`notify`
+- Пакет `java.util.concurrent`
+  - `ExecutorService`, `Future`, `Callable`
+  - Атомарные переменные (`AtomicInteger`, `AtomicReference`)
+  - Блокировки (`Lock`, `ReadWriteLock`)
+  - Concurrent-коллекции
+- Scala Futures
+  - `Future[T]` — контейнер для отложенного результата
+  - `ExecutionContext` — пул потоков для выполнения
+  - Комбинаторы: `map`, `flatMap`, `filter`, `recover`, `recoverWith`, `fallbackTo`
+  - For-comprehensions с Futures
+  - `Future.sequence`, `Future.traverse`
+  - `Promise` — создание Future вручную
+- Параллельные коллекции
+  - `.par` для параллельных операций
+  - Особенности и подводные камни
+- Асинхронные паттерны
+  - Композиция асинхронных вызовов
+  - Обработка ошибок, таймауты
+  - Блокирующий код в `Future` — `blocking` контекст
+- Проблемы и ограничения
+  - Раздувание пула потоков
+  - Отсутствие неблокирующей композиции "из коробки"
+  - Переход к функциональным эффектам
+
 </details>
 
 <details>
 <summary>
 
-### 11. Производительность и оптимизация (Performance Tuning)
+### 10. Функциональные эффекты и асинхронное программирование
 </summary>
 
-- **Избегайте аллокаций**
-  - Value Classes
-  - `@specialized` для примитивов
-  - Переиспользование объектов
-- **Сборка мусора (JVM GC)**
-  - Настройка GC для низких задержек (G1, Shenandoah, ZGC)
-  - Понимание влияния аллокаций на паузы GC
-- **Профилирование**
-  - Java Flight Recorder (JFR)
-  - Async Profiler
-  - YourKit / VisualVM
-- **Бенчмаркинг**
-  - **JMH (Java Microbenchmark Harness)** с sbt-jmh
-- **Параллелизм и конкурентность**
-  - Понимание работы `Future` (Execution context, thread pools)
-  - `IO` vs `Future`: накладные расходы на планировщик
-- **Dead code elimination и оптимизации компилятора**
+- Введение в эффекты
+  - Чистые функциональные обёртки для side-эффектов
+  - Отличие от `Future`: ссылочная прозрачность, ленивость
+- Библиотека Cats (основные тайпклассы)
+  - `Semigroup`, `Monoid`
+  - `Functor`, `Applicative`, `Monad`
+  - `Traverse`, `Foldable`
+  - `MonadError` для обработки ошибок
+  - `Parallel` для параллельных вычислений
+- Монадные трансформеры
+  - `OptionT`, `EitherT` — композиция вложенных монад
+  - `ReaderT`, `WriterT`, `StateT`
+- Cats Effect
+  - `IO[A]` — чистое описание вычисления
+  - Запуск: `unsafeRunSync`, `unsafeRunAsync`, интеграция с `IOApp`
+  - `Resource` — безопасное управление жизненным циклом (файлы, соединения)
+  - Конкурентность: `Fiber` (легковесные потоки), `start`, `join`, `racePair`, `parTraverse`
+  - Структурированная конкурентность: `Spawn`, `Supervisor`
+  - `Ref`, `Deferred`, `MVar`, `Queue` — примитивы синхронизации
+  - Потокобезопасное состояние с `Ref`
+  - Таймауты, повторные попытки, `temporal`
+- ZIO
+  - `ZIO[R, E, A]` — зависимость от окружения, ошибка, результат
+  - `ZLayer` — внедрение зависимостей
+  - Конкурентность: `Fiber`, `fork`, `join`, `race`
+  - `ZStream` — функциональные потоки
+  - `Ref`, `Promise`, `Queue`, `Semaphore`
+  - Обработка ошибок: `catchAll`, `orElse`, `retry`
+  - Тестирование с `ZIO Test`
+- Сравнение Cats Effect и ZIO
+  - Философия, экосистема, выбор для проекта
+
 </details>
 
 <details>
 <summary>
 
-### 12. Интеграция с Java-экосистемой
+### 11. Ввод-вывод, файлы и сериализация
 </summary>
 
-- **Вызов Java из Scala** (прозрачно)
-- **Scala из Java** (сложности с неявными параметрами, трейтами)
-- **Использование Java-библиотек**
-  - Логгирование: **Logback + SLF4J**
-  - Работа с БД: HikariCP (пул соединений)
-- **Сборка и упаковка**
-  - Создание "толстых" (fat/uber) JAR для Spark
-  - Контейнеризация (Docker) Scala-приложений (JVM-оптимизации для контейнеров)
-- **Интероп с GraalVM Native Image**
-  - Компиляция Scala в нативный код (ограничения, reflection)
+- Работа с файлами
+  - `scala.io.Source` — простое чтение текстовых файлов
+  - `java.nio.file` — современный API
+  - Библиотеки: os-lib (компактная работа с ФС), better-files
+  - Потоковая обработка больших файлов
+- Сериализация JSON
+  - Библиотеки: circe (полуавтоматический/автоматический вывод кодеков, кастомные энкодеры/декодеры)
+  - play-json
+  - jsoniter-scala (высокая производительность)
+  - zio-json (интеграция с ZIO)
+  - Работа с алгебраическими типами, sealed trait'ами
+- Работа с конфигурацией
+  - Typesafe Config (HOCON) — стандартный формат
+  - PureConfig — автоматическая загрузка в case-классы
+  - circe-config
+- Бинарная сериализация
+  - Boopickle (для Scala.js / JVM)
+  - avro4s, ScalaPB (Protocol Buffers)
+  - Работа с Apache Avro, Protobuf
+- Временные файлы и директории
+  - `java.nio.file.Files.createTempFile`
+- Безопасная работа с ресурсами
+  - `Resource` (Cats Effect) или `ZManaged` / `Scope` (ZIO)
+
 </details>
 
 <details>
 <summary>
 
-### 13. Управление сложными проектами
+### 12. Сетевое программирование и HTTP
 </summary>
 
-- **Миграции кода**
-  - Совместимость между минорными версиями Scala (binary compatibility)
-  - Сложности переезда с 2.12 на 2.13, на 3
-- **Управление транзитивными зависимостями**
-  - Evicted-зависимости и как с ними бороться
-- **Документирование**
-  - Scaladoc — написание понятной документации
-- **Code Review для Scala**
-  - Что искать: неправильное использование var, мутабельные коллекции, необработанные Future, блокирующие вызовы
-- **Open Source и контрибьютинг**
-  - Как читать код Cats / ZIO / Spark
+- Основы сетей
+  - Сокеты: `java.net.Socket`, TCP/UDP
+  - Простейший сервер и клиент
+- HTTP-клиенты
+  - sttp — синхронный/асинхронный, с поддержкой разных эффектов
+  - http4s client (Ember, Blaze)
+  - Akka HTTP client
+  - Выполнение запросов, обработка ответов, JSON-интеграция
+- HTTP-серверы
+  - http4s: маршрутизация с `HttpRoutes`, middleware, потоковые тела
+  - Akka HTTP: низкоуровневый и высокоуровневый API, директивы
+  - Play Framework (см. раздел веб-разработки)
+- Описание API (Tapir)
+  - Декларативное описание эндпоинтов
+  - Автогенерация OpenAPI (Swagger) документации
+  - Генерация клиентов и серверов для http4s, Akka HTTP, Play
+- WebSockets
+  - Поддержка в http4s и Akka HTTP
+  - Двусторонняя связь
+- GraphQL
+  - Библиотеки: Caliban (ZIO-ориентированная), Sangria
+- gRPC
+  - ScalaPB с поддержкой gRPC
+  - fs2-grpc для функциональных потоков
+- Аутентификация и безопасность
+  - JWT, OAuth2, CORS
+  - Middleware для проверки токенов
+
 </details>
 
 <details>
 <summary>
 
-### 14. Scala для Senior: Собеседование и кругозор
+### 13. Базы данных
 </summary>
 
-- **Теоретические вопросы**
-  - Ковариантность/контравариантность в коробке с фруктами
-  - Что такое монада? (For-comprehension desugaring)
-  - Sealed trait vs abstract class
-  - lazy val, val, def — разница в инициализации
-  - Как работает линеаризация трейтов?
-- **Практические задачи**
-  - Написание type class (например, `JsonWriter`)
-  - Работа с Future.sequence и распараллеливание
-  - Трансформеры (OptionT, EitherT) — зачем они?
-- **Архитектурные решения**
-  - Tagless Final vs ZLayer
-  - Когда использовать Akka, а когда ZIO?
-  - Как строить приложение, устойчивое к ошибкам?
-- **Что почитать/посмотреть**
-  - "Functional Programming in Scala" (Книга, она же "Красная книга")
-  - "Scala with Cats"
-  - Блоги: Li Haoyi, Daniel Ciocîrlan (Rock the JVM)
+- Доступ к реляционным БД
+  - JDBC прямое использование (низкий уровень)
+  - Функциональные обёртки: Doobie (Cats Effect), Slick (Future-based), Quill (компиляционные запросы)
+- Doobie
+  - `ConnectionIO`, `Transactor`
+  - Композиция запросов, параметризованные запросы
+  - Потоковая обработка результатов (fs2)
+- Slick (Scala Language-Integrated Connection Kit)
+  - Таблицы как коллекции
+  - FRM-подход
+  - Асинхронные запросы через `DBIO`
+- Quill
+  - Компиляционные запросы, квазицитаты
+  - Поддержка различных БД
+- Пул соединений
+  - HikariCP — настройка, интеграция
+- Миграции схем
+  - Flyway — управление миграциями
+- Транзакции
+  - ACID, управление через функциональные библиотеки
+- NoSQL
+  - MongoDB: ReactiveMongo, mongo-scala-driver
+  - Redis: redis4cats, другие клиенты
+  - Cassandra: Phantom, Quill
+
+</details>
+
+<details>
+<summary>
+
+### 14. Потоковая обработка данных (Streaming)
+</summary>
+
+- Концепции стриминга
+  - Реактивные потоки (Reactive Streams), backpressure
+  - Бесконечные и конечные потоки
+- fs2 (Functional Streams for Scala)
+  - `Stream[F, O]` — чистый функциональный поток
+  - Операции: `map`, `flatMap`, `evalMap`, `filter`, `through`
+  - Конвейеры, группировка, окна
+  - Интеграция с Cats Effect IO, файлами, TCP
+  - Конкурентность в fs2: `parJoin`, `balance`
+- ZIO Stream
+  - `ZStream[R, E, O]`
+  - Слияние, разделение, агрегация
+  - Интеграция с ZIO-экосистемой
+- Akka Streams
+  - `Source`, `Flow`, `Sink` — компоненты графа
+  - Graph DSL для сложных топологий
+  - Материализация, контроль скорости
+  - Интеграция с Akka HTTP, Kafka
+- Интеграция с Kafka
+  - fs2-kafka, zio-kafka, akka-stream-kafka
+  - Consume/produce, смещения, коммиты
+- Обработка событий в реальном времени
+  - Архитектуры, гарантии доставки
+
+</details>
+
+<details>
+<summary>
+
+### 15. Веб-разработка и микросервисы
+</summary>
+
+- Play Framework
+  - MVC-архитектура, маршруты, контроллеры
+  - Шаблоны Twirl
+  - JSON с play-json
+  - Формы и валидация
+  - WebSockets
+  - Интеграция с Akka
+- http4s как основа
+  - Чисто функциональный веб-сервис
+  - Маршрутизация, middleware, инъекции зависимостей
+  - Поддержка стриминга
+- Akka HTTP
+  - Маршруты на директивах
+  - Низкоуровневый API для производительности
+  - Кластерные приложения
+- Tapir
+  - Описание эндпоинтов как значений
+  - Генерация серверов, клиентов и документации
+- Архитектура микросервисов
+  - Межсервисное взаимодействие (REST, gRPC, очереди)
+  - Circuit Breaker, retry, bulkhead (resilience4j, sttp- Resilience)
+  - Service Discovery, балансировка
+  - CQRS и Event Sourcing (обзор)
+  - Трассировка запросов (OpenTelemetry)
+- Валидация данных
+  - Библиотеки: cats.data.Validated, zio-prelude, refinement types
+
+</details>
+
+<details>
+<summary>
+
+### 16. Акторы и Akka
+</summary>
+
+- Модель акторов
+  - Принципы: изолированное состояние, обмен сообщениями, супервизия
+  - ActorSystem, ActorRef, сообщения
+- Akka Classic (введение)
+  - Определение актора (`Actor` с `receive`)
+  - Props, создание акторов, `!` (tell)
+  - Жизненный цикл, preStart/postStop
+  - Иерархия и стратегии супервизии (OneForOne, AllForOne)
+- Akka Typed (современный API)
+  - Поведение: `Behaviors.setup`, `Behaviors.receiveMessage`
+  - Протоколы: trait сообщений
+  - `spawn`, `ask` pattern
+  - Адаптация Classic ↔ Typed
+- Akka Cluster
+  - Распределённые акторы, member nodes
+  - Шардинг (Cluster Sharding) для распределения сущностей
+  - Consistent hashing, балансировка
+- Akka Persistence
+  - Event Sourcing с акторами
+  - Хранение событий, восстановление состояния
+  - Плагины (JDBC, Cassandra)
+- Akka HTTP
+  - Интеграция с акторами
+  - Потоковые ответы, вебсокеты
+- Альтернативы Akka
+  - Akka vs Cats Effect / ZIO: выбор подхода
+
+</details>
+
+<details>
+<summary>
+
+### 17. Большие данные и Spark
+</summary>
+
+- Apache Spark и Scala
+  - Архитектура: драйвер, исполнители, задачи
+  - Запуск Spark-приложений на Scala (spark-submit)
+- API высокого уровня
+  - DataFrame — структурированные данные, операции
+  - Dataset — типобезопасный API
+  - RDD (Resilient Distributed Dataset) — низкоуровневый API
+- Spark SQL
+  - SQL-запросы к DataFrame
+  - Встроенные функции и UDF
+- Spark Streaming
+  - DStreams (устаревающий)
+  - Structured Streaming — современный подход, exactly-once семантика
+- Оптимизация Spark
+  - Партиционирование, кэширование, сериализация
+  - Catalyst оптимизатор, Tungsten
+- Интеграция
+  - Kafka, HDFS, облачные хранилища (S3, GCS)
+  - Форматы: Parquet, Avro, ORC
+- MLlib
+  - Обзор библиотеки машинного обучения
+- Ноутбуки
+  - Jupyter с Apache Toree или spark-scala-notebook
+
+</details>
+
+<details>
+<summary>
+
+### 18. Инструменты разработки и линтинг
+</summary>
+
+- Форматирование кода
+  - scalafmt: конфигурация `.scalafmt.conf`, запуск в sbt, IntelliJ
+- Статический анализ и линтинг
+  - scalafix: правила, рефакторинг, миграции (Scala 2 → 3)
+  - WartRemover: обнаружение опасных паттернов
+- Отладка
+  - IntelliJ Debugger: точки останова, просмотр переменных
+  - Удалённая отладка
+- Профилирование и бенчмарки
+  - sbt-jmh (Java Microbenchmark Harness) — написание микро-бенчмарков
+  - async-profiler, JFR (Java Flight Recorder)
+  - Визуализация профилей
+- Документация
+  - scaladoc (Scala 2 и Scala 3)
+  - mdoc — исполняемая документация
+- Утилиты
+  - Ammonite REPL — улучшенная интерактивная среда
+  - coursier — менеджер зависимостей и артефактов
+  - Управление версиями Scala через sdkman!
+
+</details>
+
+<details>
+<summary>
+
+### 19. Архитектура и паттерны проектирования
+</summary>
+
+- Функциональные архитектурные паттерны
+  - Tagless Final (finally tagless) — параметризация на эффекте
+  - Reader Monad — передача зависимостей
+  - Free Monad (упоминание, современные альтернативы)
+- Внедрение зависимостей (DI)
+  - MacWire — compile-time DI
+  - ZLayer — в ZIO
+  - ReaderT / Kleisli — функциональное DI
+  - Guice (с осторожностью)
+- Гексагональная архитектура (Ports & Adapters)
+  - Отделение доменной логики от инфраструктуры
+  - Реализация на Scala с использованием эффектов
+- Событийно-ориентированная архитектура
+  - Асинхронная коммуникация, брокеры сообщений (Kafka)
+- Паттерны устойчивости
+  - Retry, Circuit Breaker, Bulkhead, Timeout, Fallback
+  - Библиотеки: resilience4j, sttp resilience, собственные реализации на эффектах
+- Проектирование модулей
+  - Разделение на слои, пакеты
+  - Принципы SOLID в функциональном стиле
+
+</details>
+
+<details>
+<summary>
+
+### 20. Безопасность
+</summary>
+
+- Основы безопасности в Scala-приложениях
+  - Модель угроз
+- Защита от инъекций
+  - SQL-инъекции (параметризованные запросы в Doobie, Slick, Quill)
+  - LDAP, XML, JSON инъекции
+- Безопасное хранение секретов
+  - Не хранить в коде, использование vault, переменных окружения
+- Криптография
+  - Библиотеки: tsec (для Cats Effect), Bouncy Castle
+  - Хеширование паролей (BCrypt)
+- Защита веб-приложений
+  - CSRF, XSS, Content Security Policy
+  - Заголовки безопасности (Strict-Transport-Security, etc.)
+- Проверка входных данных
+  - Валидация и санитизация
+  - Refinement types (refined library) для проверок на уровне типов
+- Аутентификация и авторизация
+  - JWT, OAuth2, OpenID Connect
+  - Ролевая модель доступа
+
+</details>
+
+<details>
+<summary>
+
+### 21. Производительность и оптимизация
+</summary>
+
+- Понимание JVM-производительности
+  - Boxing/unboxing, специализированные коллекции (Array, специализации)
+  - Value classes для избежания аллокаций
+- Оптимизация рекурсии
+  - Tailrec, трамполины (cats.free.Trampoline)
+- Измерение производительности
+  - JMH микро-бенчмарки
+  - Профилирование CPU и памяти (async-profiler, JFR)
+- Настройка сборщика мусора
+  - Выбор GC (G1, ZGC), параметры
+- Оптимизация работы с коллекциями
+  - Выбор правильной коллекции (List vs Vector vs Array)
+  - Использование view для ленивых цепочек
+- Утечки памяти
+  - Типичные сценарии в долгоживущих приложениях
+  - Инструменты анализа дампов (Eclipse MAT)
+- Параллелизм и асинхронность
+  - Настройка пулов потоков в Cats Effect/ZIO
+  - Блокирующий код и его изоляция
+- Мониторинг метрик производительности в production
+
+</details>
+
+<details>
+<summary>
+
+### 22. Развертывание, DevOps и наблюдаемость
+</summary>
+
+- Упаковка приложений
+  - sbt-assembly — создание fat JAR
+  - sbt-native-packager — Docker, deb, rpm образы
+  - jlink для кастомных JRE
+  - GraalVM native image (с ограничениями для Scala)
+- Конфигурация
+  - Внешняя конфигурация через файлы и переменные окружения
+  - Библиотеки: PureConfig, Ciris
+- Логирование
+  - SLF4J + Logback — стандартная связка
+  - Структурированное логирование: logstash-logback-encoder
+  - Логирование в эффектах: Log4Cats, ZIO Logging
+  - Уровни логирования, MDC
+- Метрики
+  - Библиотеки: Kamon, Prometheus (simpleclient), Dropwizard Metrics
+  - Экспорт метрик, визуализация (Grafana)
+- Трассировка
+  - OpenTelemetry: ручная и автоматическая инструментация
+  - Интеграция с Cats Effect, ZIO, Akka HTTP
+- CI/CD
+  - GitHub Actions, Jenkins pipeline для Scala проектов
+  - Кэширование зависимостей (sbt cache)
+  - Автоматические релизы через sbt-ci-release
+- Контейнеризация и оркестрация
+  - Dockerfile для Scala-приложений
+  - Kubernetes: deployment, service, ingress
+  - Service Mesh (Istio) — обзор
+- Облачные платформы
+  - Развёртывание на AWS, GCP, Azure (управляемые сервисы)
+
+</details>
+
+<details>
+<summary>
+
+### 23. Метапрограммирование и макросы
+</summary>
+
+- Введение в метапрограммирование
+  - Цели: кодогенерация, проверки на этапе компиляции, устранение бойлерплейта
+- Макросы в Scala 2
+  - `def` макросы с `Context`
+  - Макро-аннотации: `@compileTimeOnly`
+  - Ограничения и сложности
+- Метапрограммирование в Scala 3
+  - Inline методы: условная компиляция, редукция match
+  - `scala.quoted.Expr` и `scala.quoted.Quotes` — quotes и splices
+  - Макросы как инлайн методы с цитированием
+  - `constValue`, `erasedValue` для доступа к типам
+- Кодогенерация
+  - Использование scalagen
+- Рефлексия
+  - `scala.reflect.api` (в основном для фреймворков)
+  - Ограничения, альтернативы (тайпклассы)
+
+</details>
+
+<details>
+<summary>
+
+### 24. Лучшие практики и стиль кода
+</summary>
+
+- Стиль кода
+  - Рекомендации официального Scala Style Guide
+  - Форматирование через scalafmt
+- Именование
+  - Классы, traits, объекты — UpperCamelCase
+  - Методы и поля — lowerCamelCase
+  - Константы — UpperCamelCase
+- Иммутабельность и чистые функции
+  - Предпочтение `val` и неизменяемых коллекций
+  - Минимизация побочных эффектов
+- Композиция
+  - Композиция функций и типов вместо глубокого наследования
+  - Использование паттерна "сборка" (cake pattern, DI)
+- Моделирование данных
+  - Активное использование алгебраических типов (sealed trait + case classes)
+  - Типы для примитивов (value classes, opaque types)
+- Размер модулей
+  - Маленькие, сфокусированные функции и классы
+  - Организация в пакеты по функциональности
+- Обработка ошибок
+  - Отказ от исключений для потока управления
+  - Явная передача ошибок (Either, Option, IO)
+- Документирование
+  - Scaladoc для публичного API
+  - Комментарии для сложной логики
+- Код-ревью
+  - Чек-листы, культура ревью
+- Эволюция кодовой базы
+  - Рефакторинг с опорой на типы и компилятор
+
+</details>
+
+<details>
+<summary>
+
+### 25. Путь к уровню Senior Scala Developer
+</summary>
+
+- Глубокие технические знания
+  - Свободное владение Cats, Cats Effect или ZIO
+  - Понимание продвинутой системы типов (типклассы, вариантность, type-level программирование)
+  - Уверенная работа с Akka, Spark, Kafka
+  - Опыт проектирования высоконагруженных систем
+- Архитектурное мышление
+  - Проектирование микросервисных и распределённых систем
+  - Выбор правильных абстракций, паттернов
+  - Принятие решений по стеку технологий
+- Лидерство и менторство
+  - Проведение код-ревью, обучение младших коллег
+  - Внедрение лучших практик в команде
+  - Коммуникация технических решений
+- Вклад в сообщество
+  - Open-source проекты, библиотеки
+  - Доклады на конференциях, статьи
+- Подготовка к собеседованиям
+  - Алгоритмы и структуры данных (LeetCode, HackerRank)
+  - System Design интервью
+  - Scala-специфичные задачи: имплиситы, типы, эффекты
+- Непрерывное обучение
+  - Миграция на Scala 3, отслеживание новых возможностей
+  - Изучение смежных технологий (Kubernetes, облака, DevOps)
+- Карьерный рост
+  - Роль технического лида, архитектора
+  - Участие в стратегических решениях
+
 </details>
